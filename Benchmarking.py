@@ -350,29 +350,121 @@ class DatasetManager:
         logger.info("Checksum validation not yet implemented")
         return True
 
-    # Prints instructions when datasets are not found — no silent failure.
+    # Download all dataset archives for the configured version, verify their
+    # SHA256 checksums, and extract them into the correct sub-folders.
+    # Uses only the Python standard library (urllib + hashlib + zipfile) so
+    # there are no dependencies beyond what ships with ArcGIS Pro.
     def _download_datasets(self) -> bool:
+        import urllib.request
+        import hashlib
+        import zipfile
+        import tempfile
+
         dataset_info = self.DATASETS.get(self.version)
         if not dataset_info:
             logger.error(f"No dataset configuration for version {self.version}")
             return False
 
+        files = dataset_info.get("files", [])
+        if not files:
+            logger.error("No files defined in dataset configuration")
+            return False
+
         logger.info("=" * 60)
-        logger.info("DATASET DOWNLOAD REQUIRED")
+        logger.info(f"DOWNLOADING BENCHMARK DATASETS — {self.version}")
+        logger.info(f"{dataset_info['description']}")
         logger.info("=" * 60)
-        logger.info(f"Version: {self.version}")
-        logger.info(f"Description: {dataset_info['description']}")
-        logger.info(f"\nDatasets expected in: {self.data_dir}")
-        logger.info("\nNOTE: Dataset URLs are not yet configured.")
-        logger.info("To use this benchmark tool:")
-        logger.info("  1. Prepare vector and raster datasets (see README)")
-        logger.info("  2. Host archives on GitHub Releases or cloud storage")
-        logger.info("  3. Update DATASETS with real URLs and SHA256 checksums")
-        logger.info(f"\nFor manual setup, place files in:")
-        logger.info(f"  Vector: {self.vector_dir}")
-        logger.info(f"  Raster: {self.raster_dir}")
+
+        for file_info in files:
+            name       = file_info["name"]
+            url        = file_info["url"]
+            expected   = file_info["checksum"].upper()
+            # extract_to is relative to data_dir (e.g. "Vector" or "Raster").
+            # If empty, extract directly into data_dir.
+            extract_to = self.data_dir / file_info.get("extract_to", "")
+
+            logger.info(f"\n  [{files.index(file_info)+1}/{len(files)}] {name}")
+            logger.info(f"  URL: {url}")
+
+            # Download to a temp file so a partial download never leaves a
+            # corrupt file in the data directory.
+            tmp_path = Path(tempfile.mktemp(suffix=".zip"))
+            try:
+                last_pct = [-1]
+
+                def _progress(block_num, block_size, total_size):
+                    if total_size > 0:
+                        pct = min(100, block_num * block_size * 100 // total_size)
+                        # Log every 10% to avoid flooding the console.
+                        if pct // 10 > last_pct[0] // 10:
+                            logger.info(f"    {pct}%...")
+                            last_pct[0] = pct
+
+                urllib.request.urlretrieve(url, str(tmp_path), _progress)
+                logger.info(f"  Download complete.")
+            except Exception as e:
+                logger.error(f"  Download failed: {e}")
+                tmp_path.unlink(missing_ok=True)
+                return False
+
+            # Verify SHA256 checksum before extracting to catch corrupted or
+            # partially downloaded files.
+            logger.info("  Verifying checksum...")
+            sha256 = hashlib.sha256()
+            with open(tmp_path, "rb") as f:
+                for chunk in iter(lambda: f.read(65536), b""):
+                    sha256.update(chunk)
+            actual = sha256.hexdigest().upper()
+
+            if actual != expected:
+                logger.error(f"  Checksum MISMATCH for {name}")
+                logger.error(f"    Expected: {expected}")
+                logger.error(f"    Got:      {actual}")
+                tmp_path.unlink(missing_ok=True)
+                return False
+            logger.info("  Checksum verified.")
+
+            # Extract into the target sub-folder, creating it if needed.
+            extract_to.mkdir(parents=True, exist_ok=True)
+            logger.info(f"  Extracting to {extract_to}...")
+            try:
+                with zipfile.ZipFile(tmp_path, 'r') as zf:
+                    # Strip any top-level folder prefix that 7z may have added
+                    # so files always land directly in the target directory.
+                    members = zf.namelist()
+                    top_dirs = {m.split('/')[0] for m in members if '/' in m}
+                    strip_prefix = ""
+                    if len(top_dirs) == 1:
+                        candidate = list(top_dirs)[0] + "/"
+                        if all(m.startswith(candidate) or m == candidate
+                               for m in members):
+                            strip_prefix = candidate
+
+                    for member in members:
+                        target_name = member[len(strip_prefix):]
+                        if not target_name:
+                            continue
+                        target_path = extract_to / target_name
+                        if member.endswith('/'):
+                            target_path.mkdir(parents=True, exist_ok=True)
+                        else:
+                            target_path.parent.mkdir(parents=True, exist_ok=True)
+                            with zf.open(member) as src, \
+                                 open(target_path, 'wb') as dst:
+                                dst.write(src.read())
+
+                logger.info(f"  Extracted {len(members)} entries.")
+            except Exception as e:
+                logger.error(f"  Extraction failed: {e}")
+                tmp_path.unlink(missing_ok=True)
+                return False
+
+            tmp_path.unlink(missing_ok=True)
+
+        logger.info("\n" + "=" * 60)
+        logger.info("All datasets downloaded and verified successfully.")
         logger.info("=" * 60)
-        return False
+        return True
 
     # Return path to a named vector file, or None if it does not exist.
     def get_vector_data(self, name: str) -> Optional[str]:
