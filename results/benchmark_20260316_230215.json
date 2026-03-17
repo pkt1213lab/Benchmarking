@@ -1,0 +1,280 @@
+{
+  "benchmark_id": "20260316_230215",
+  "timestamp": "2026-03-16T23:02:15.450951",
+  "dataset_version": "v1.0",
+  "iterations": 5,
+  "cores_used": 19,
+  "test_selection": "all",
+  "system_info": {
+    "cpu_model": "12th Gen Intel(R) Core(TM) i9-12900HK",
+    "cpu_cores": 20,
+    "ram_gb": 31.68,
+    "gpu_model": "NVIDIA GeForce RTX 3050 Ti Laptop GPU; Intel(R) Iris(R) Xe Graphics",
+    "gpu_available": true,
+    "arcgis_version": "3.6",
+    "arcgis_build": "59527",
+    "python_version": "3.13.7",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64"
+  },
+  "results": {
+    "vector_geoprocessing": {
+      "buffer_100m_countries": {
+        "trials": [
+          57.137,
+          56.432,
+          56.854,
+          56.814,
+          56.765
+        ],
+        "mean": 56.801,
+        "median": 56.814,
+        "std_dev": 0.251,
+        "min": 56.432,
+        "max": 57.137,
+        "status": "success"
+      },
+      "clip_western_hemisphere": {
+        "trials": [
+          0.793,
+          0.785,
+          0.77,
+          0.772,
+          0.767
+        ],
+        "mean": 0.777,
+        "median": 0.772,
+        "std_dev": 0.011,
+        "min": 0.767,
+        "max": 0.793,
+        "status": "success"
+      },
+      "intersect_30deg_grid": {
+        "trials": [
+          0.982,
+          0.962,
+          0.968,
+          0.989,
+          0.971
+        ],
+        "mean": 0.974,
+        "median": 0.971,
+        "std_dev": 0.011,
+        "min": 0.962,
+        "max": 0.989,
+        "status": "success"
+      },
+      "buffer_100m_states": {
+        "trials": [
+          105.012,
+          109.188,
+          106.367,
+          106.125,
+          106.948
+        ],
+        "mean": 106.728,
+        "median": 106.367,
+        "std_dev": 1.544,
+        "min": 105.012,
+        "max": 109.188,
+        "status": "success"
+      },
+      "dissolve_states_to_countries": {
+        "trials": [
+          1.457,
+          1.437,
+          1.437,
+          1.465,
+          1.465
+        ],
+        "mean": 1.452,
+        "median": 1.457,
+        "std_dev": 0.014,
+        "min": 1.437,
+        "max": 1.465,
+        "status": "success"
+      },
+      "spatial_join_states_countries": {
+        "trials": [
+          1.928,
+          1.883,
+          1.887,
+          1.894,
+          1.874
+        ],
+        "mean": 1.893,
+        "median": 1.887,
+        "std_dev": 0.021,
+        "min": 1.874,
+        "max": 1.928,
+        "status": "success"
+      },
+      "union_30deg_grid": {
+        "trials": [
+          2.332,
+          2.311,
+          2.34,
+          2.308,
+          2.293
+        ],
+        "mean": 2.317,
+        "median": 2.311,
+        "std_dev": 0.019,
+        "min": 2.293,
+        "max": 2.34,
+        "status": "success"
+      },
+      "erase_eastern_hemisphere": {
+        "trials": [
+          2.014,
+          1.989,
+          1.973,
+          1.997,
+          1.982
+        ],
+        "mean": 1.991,
+        "median": 1.989,
+        "std_dev": 0.016,
+        "min": 1.973,
+        "max": 2.014,
+        "status": "success"
+      }
+    },
+    "raster_analysis": {
+      "slope": {
+        "trials": [
+          8.262,
+          6.108,
+          6.082,
+          6.077,
+          6.037
+        ],
+        "mean": 6.513,
+        "median": 6.082,
+        "std_dev": 0.978,
+        "min": 6.037,
+        "max": 8.262,
+        "status": "success"
+      },
+      "aspect": {
+        "trials": [
+          4.781,
+          4.934,
+          4.942,
+          4.934,
+          4.899
+        ],
+        "mean": 4.898,
+        "median": 4.934,
+        "std_dev": 0.068,
+        "min": 4.781,
+        "max": 4.942,
+        "status": "success"
+      },
+      "hillshade": {
+        "trials": [
+          5.216,
+          4.999,
+          4.939,
+          4.971,
+          4.954
+        ],
+        "mean": 5.016,
+        "median": 4.971,
+        "std_dev": 0.114,
+        "min": 4.939,
+        "max": 5.216,
+        "status": "success"
+      },
+      "focal_statistics_50cell": {
+        "trials": [
+          25.807,
+          24.807,
+          24.484
+        ],
+        "mean": 25.033,
+        "median": 24.807,
+        "std_dev": 0.69,
+        "min": 24.484,
+        "max": 25.807,
+        "status": "success"
+      }
+    },
+    "raster_analysis_lidar_1m": {
+      "slope": {
+        "trials": [
+          7.183,
+          7.617,
+          7.283,
+          7.173,
+          7.092
+        ],
+        "mean": 7.27,
+        "median": 7.183,
+        "std_dev": 0.206,
+        "min": 7.092,
+        "max": 7.617,
+        "status": "success"
+      },
+      "aspect": {
+        "trials": [
+          4.634,
+          4.837,
+          4.736,
+          4.838,
+          4.698
+        ],
+        "mean": 4.749,
+        "median": 4.736,
+        "std_dev": 0.089,
+        "min": 4.634,
+        "max": 4.838,
+        "status": "success"
+      },
+      "hillshade": {
+        "trials": [
+          5.344,
+          5.114,
+          5.149,
+          5.219,
+          5.108
+        ],
+        "mean": 5.187,
+        "median": 5.149,
+        "std_dev": 0.098,
+        "min": 5.108,
+        "max": 5.344,
+        "status": "success"
+      },
+      "focal_statistics_50cell": {
+        "trials": [
+          25.76,
+          25.883,
+          25.71
+        ],
+        "mean": 25.785,
+        "median": 25.76,
+        "std_dev": 0.089,
+        "min": 25.71,
+        "max": 25.883,
+        "status": "success"
+      }
+    },
+    "lidar_processing": {
+      "las_to_raster_1m": {
+        "trials": [
+          291.868,
+          297.467,
+          301.328
+        ],
+        "mean": 296.888,
+        "median": 297.467,
+        "std_dev": 4.757,
+        "min": 291.868,
+        "max": 301.328,
+        "status": "success"
+      }
+    }
+  },
+  "total_time_seconds": 2694.42
+}
