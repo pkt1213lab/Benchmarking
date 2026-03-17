@@ -1,0 +1,27 @@
+# Benchmark data (downloaded datasets - hosted separately on GitHub Releases)
+BenchmarkData/
+benchmark_data/
+
+# Benchmark results (tracked so GitHub Pages can serve them)
+# results/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+
+# ArcGIS specific
+*.lock
+*.aprx.bak
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

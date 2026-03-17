@@ -1,0 +1,158 @@
+{
+  "benchmark_id": "20260316_204229",
+  "timestamp": "2026-03-16T20:42:29.416260",
+  "dataset_version": "v1.0",
+  "iterations": 5,
+  "cores_used": 19,
+  "test_selection": "raster",
+  "system_info": {
+    "cpu_model": "12th Gen Intel(R) Core(TM) i9-12900HK",
+    "cpu_cores": 20,
+    "ram_gb": 31.68,
+    "gpu_model": "NVIDIA GeForce RTX 3050 Ti Laptop GPU; Intel(R) Iris(R) Xe Graphics",
+    "gpu_available": true,
+    "arcgis_version": "3.6",
+    "arcgis_build": "59527",
+    "python_version": "3.13.7",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64"
+  },
+  "results": {
+    "raster_analysis": {
+      "slope": {
+        "trials": [
+          5.704,
+          5.558,
+          5.665,
+          5.658,
+          5.569
+        ],
+        "mean": 5.631,
+        "median": 5.658,
+        "std_dev": 0.064,
+        "min": 5.558,
+        "max": 5.704,
+        "status": "success"
+      },
+      "aspect": {
+        "trials": [
+          4.487,
+          4.635,
+          4.641,
+          4.668,
+          4.638
+        ],
+        "mean": 4.614,
+        "median": 4.638,
+        "std_dev": 0.072,
+        "min": 4.487,
+        "max": 4.668,
+        "status": "success"
+      },
+      "hillshade": {
+        "trials": [
+          4.873,
+          4.677,
+          4.757,
+          4.692,
+          4.754
+        ],
+        "mean": 4.75,
+        "median": 4.754,
+        "std_dev": 0.077,
+        "min": 4.677,
+        "max": 4.873,
+        "status": "success"
+      },
+      "focal_statistics_50cell": {
+        "trials": [
+          24.745,
+          25.423,
+          24.267
+        ],
+        "mean": 24.812,
+        "median": 24.745,
+        "std_dev": 0.581,
+        "min": 24.267,
+        "max": 25.423,
+        "status": "success"
+      }
+    },
+    "raster_analysis_lidar_1m": {
+      "slope": {
+        "trials": [
+          0.475,
+          0.43,
+          0.438,
+          0.46,
+          0.445
+        ],
+        "mean": 0.45,
+        "median": 0.445,
+        "std_dev": 0.018,
+        "min": 0.43,
+        "max": 0.475,
+        "status": "success"
+      },
+      "aspect": {
+        "trials": [
+          0.376,
+          0.355,
+          0.351,
+          0.357,
+          0.355
+        ],
+        "mean": 0.359,
+        "median": 0.355,
+        "std_dev": 0.01,
+        "min": 0.351,
+        "max": 0.376,
+        "status": "success"
+      },
+      "hillshade": {
+        "trials": [
+          0.411,
+          0.396,
+          0.399,
+          0.404,
+          0.397
+        ],
+        "mean": 0.402,
+        "median": 0.399,
+        "std_dev": 0.006,
+        "min": 0.396,
+        "max": 0.411,
+        "status": "success"
+      },
+      "focal_statistics_50cell": {
+        "trials": [
+          1.896,
+          1.821,
+          1.822
+        ],
+        "mean": 1.847,
+        "median": 1.822,
+        "std_dev": 0.043,
+        "min": 1.821,
+        "max": 1.896,
+        "status": "success"
+      }
+    },
+    "lidar_processing": {
+      "las_to_raster_1m": {
+        "trials": [
+          18.436,
+          18.487,
+          18.448
+        ],
+        "mean": 18.457,
+        "median": 18.448,
+        "std_dev": 0.027,
+        "min": 18.436,
+        "max": 18.487,
+        "status": "success"
+      }
+    }
+  },
+  "total_time_seconds": 221.26
+}
